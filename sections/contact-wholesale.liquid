@@ -1,0 +1,91 @@
+<div class="contact-form form-vertical">
+        {%- assign formId = 'ContactForm' -%}
+        {% form 'contact', id: formId %}
+          {% include 'form-status', form: form, form_id: formId %}
+           <div class='top-text-container'>
+                <h4>Wholesale B2B</h4>
+                <p>If you're interested in purchasing our product to sell wholesale in your online or physical store, please fill out the contact form below and a representative will contact you within 48 hours. Please include any information you have about your business or a link to your website if you have one. </p>
+                <img src="https://dollarflow.com/wp-content/uploads/2020/08/legit-online-jobs-that-are-easyflexible-and-paid-well-1024x683.jpg">
+            </div>
+           <div class='top-text-container'>
+                <h4>Reliable Delivery</h4>
+                <p>We guarantee that our product will arrive within the scheduled time, in tact, or you get you money back, 100%. We have been in the wholesale business for over 5 years with over 1,000 satisfied partners that continue to work with us every year.</p>
+                <img src="https://nigerianfinder.com/wp-content/uploads/2022/03/List-of-Delivery-Companies-in-Lagos.jpg">
+            </div>
+          <div class="grid grid--half-gutters">
+            <div class="grid__item medium-up--one-half">
+              <label for="{{ formId }}-name">{{ 'contact.form.name' | t }}</label>
+              <input type="text" id="{{ formId }}-name" name="contact[{{ 'contact.form.name' | t }}]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+            </div>
+            <div class="grid__item medium-up--one-half">
+              <label for="{{ formId }}-email">{{ 'contact.form.email' | t }} <span aria-hidden="true">*</span></label>
+              <input
+                type="email"
+                id="{{ formId }}-email"
+                name="contact[email]"
+                autocorrect="off"
+                autocapitalize="off"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                aria-required="true"
+                {%- if form.errors contains 'email' -%}
+                  class="input--error"
+                  aria-invalid="true"
+                  aria-describedby="{{ formId }}-email-error"
+                {%- endif -%}
+                >
+              {%- if form.errors contains 'email' -%}
+                <span id="{{ formId}}-email-error" class="input-error-message">
+                  <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+                  {% include 'icon-error' %}
+                  <span>{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="grid grid--half-gutters">
+            <div class="grid__item medium-up--one-half">
+              <label for="{{ formId }}-business-name">{{ 'contact.form.business-name' | t }}</label>
+              <input type="text" id="{{ formId }}-business-name" name="contact[{{ 'contact.form.business-name' | t }}]" value="{% if form[business-name] %}{{ form[business-name] }}{% elsif customer %}{{ customer.business-name }}{% endif %}">
+            </div>
+            <div class="grid__item medium-up--one-half">
+              <label for="{{ formId }}-website">{{ 'contact.form.website' | t }}</label>
+              <input type="text" id="{{ formId }}-website" name="contact[{{ 'contact.form.website' | t }}]" value="{% if form[website] %}{{ form[website] }}{% elsif customer %}{{ customer.website }}{% endif %}">
+            </div>
+          </div>
+
+          <label for="{{ formId }}-phone">{{ 'contact.form.phone' | t }}</label>
+          <input type="tel" id="{{ formId }}-phone" name="contact[{{ 'contact.form.phone' | t }}]" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+          <label for="{{ formId }}-order">{{ 'contact.form.order' | t }}</label>
+          <input type="text" id="{{ formId }}-order" name="contact[{{ 'contact.form.order' | t }}]">
+
+        {% assign businessTypes = section.settings.businessTypes |  split: "," %}
+       
+
+        <label>Type of Business</label>
+            <select id="business-type" name="business-type">
+             {% for type in businessTypes %}
+             <option>{{type}}</option>
+            {% endfor %}
+            </select>
+           
+          <label for="{{ formId }}-message">{{ 'contact.form.message' | t }}</label>
+          <textarea rows="10" id="{{ formId }}-message" name="contact[{{ 'contact.form.message' | t }}]">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+          <input type="submit" class="btn" value="{{ 'contact.form.submit' | t }}">
+
+        {% endform %}
+      </div>
+
+{% schema %}
+    {
+        "name": "wholesale contact form",
+        "settings": [
+            {
+                "type": "text",
+                "label": "Business Types (Comma-Separated)",
+                "id" : "businessTypes"
+            }
+        ]
+    }
+{% endschema %}
